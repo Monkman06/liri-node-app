@@ -1,18 +1,18 @@
 
 var fs = require('fs');
-var Twitter = require('twitter');
-var Spotify = require('spotify');
-var Request = require('request');
+var twitter = require('twitter');
+var spotify = require('spotify');
+var request = require('request');
 // var prompt = require('prompt');
 var keys = require('./keys.js')
 
 var command = process.argv[2];
 var argument = process.argv[3];
-var client = new Twitter(keys.twitterKeys)
+//var client = new Twitter(keys.twitterKeys)
 
 switch (command){
   case "my-tweets":
-    lookFormytweets()
+    lookFormytweets();
     break;
   
   case "spotify-this-song":
@@ -33,18 +33,21 @@ switch (command){
 }
 
 function lookFormytweets(){
-
-var params = {screen_name: 'mr k'};
+var client = new twitter(keys.twitterKeys);
+var params = {screen_name: 'ptkcpt2012'};
 client.get('statuses/user_timeline', params, function(error,tweets,response){
   if (!error){
     for (var i=0; i<tweets.length; i++){
       console.log(tweets[i].text);
-    };
-  };
+    }
+  }else{
+    console.log(error);
+  }
 });
+
 };
 
-function spotifySong(argument){
+function spotifySong(argument){ 
   var songtopass;
     if(argument === undefined){
       songtopass = "the sign";
@@ -57,7 +60,7 @@ function spotifySong(argument){
     console.log('"the sign" by ace of base');
     console.log(data)
 
-    for (var i = 0; i<data.tracks.item.length; i++){
+    for (var i = 0; i<data.tracks.items.length; i++){
       console.log(data.tracks.items[i].artist[0].name);
       console.log(data.tracks.items[i].name);
       console.log(data.tracks.items[i].preview_url);
@@ -79,7 +82,7 @@ var movieTitle;
     movieTitle = argument;
   };
 
-  request("https://www.omdbapi.com/?t="+movieTitle+"&y=&plot=short&r=json", function(err, response, body){
+  request("http://www.omdbapi.com/?t="+movieTitle+"&y=&plot=short&r=json&tomatoes=true", function(err, response, body){
      if(!err && response.statusCode == 200){
       body = JSON.parse(body);
       console.log("Title: " + body.Title);
