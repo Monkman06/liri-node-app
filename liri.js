@@ -58,13 +58,13 @@ function spotifySong(argument){
 
   spotify.search({type:'track', query: songtopass}, function(error, data){
     console.log('"the sign" by ace of base');
-    console.log(data)
+    console.log(data);
 
     for (var i = 0; i<data.tracks.items.length; i++){
-      console.log(data.tracks.items[i].artist[0].name);
+      console.log(data.tracks.items[i].artists[0].name);
       console.log(data.tracks.items[i].name);
       console.log(data.tracks.items[i].preview_url);
-      console.log(data.tracks.items[i].albums.name);
+      console.log(data.tracks.items[i].album.name);
     };
   });
 };
